@@ -21,6 +21,6 @@ export default defineConfig({
       },
     },
     // 包含的测试文件
-    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    include: ['tests/**/*.{test,spec}.{ts,tsx}'],
   },
 })
