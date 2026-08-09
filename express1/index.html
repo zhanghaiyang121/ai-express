@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>悦读 - 随身图书馆</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 顶部状态栏 -->
+    <div class="status-bar" id="statusBar">
+        <span class="status-time" id="statusTime">19:30</span>
+        <span class="status-title">悦读</span>
+        <span class="status-icons">
+            <span class="battery-icon">🔋</span>
+        </span>
+    </div>
+
+    <!-- 应用容器 -->
+    <div class="app-container" id="appContainer">
+        
+        <!-- ==================== 书架页面 ==================== -->
+        <div class="page" id="page-bookshelf">
+            <div class="page-header">
+                <h2 class="header-title">我的书架</h2>
+                <div class="header-actions">
+                    <span class="icon-btn" id="btnEdit">编辑</span>
+                    <span class="icon-btn" id="btnGridToggle">≡</span>
+                </div>
+            </div>
+            
+            <!-- 搜索栏 -->
+            <div class="search-bar" id="goSearch">
+                <span class="search-icon">🔍</span>
+                <span class="search-placeholder">搜索书名或作者</span>
+            </div>
+
+            <!-- 最近阅读 -->
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">继续阅读</h3>
+                </div>
+                <div class="recent-scroll" id="recentBooks">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <!-- 书架列表 -->
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">全部藏书 <span class="count-badge" id="bookCount">0</span></h3>
+                    <span class="section-action" id="btnSort">排序</span>
+                </div>
+                <div class="book-grid" id="bookshelfGrid">
+                    <!-- 动态生成 -->
+                </div>
+                <div class="empty-state" id="bookshelfEmpty">
+                    <div class="empty-icon">📚</div>
+                    <p class="empty-text">书架空空如也</p>
+                    <p class="empty-hint">去书城逛逛吧~</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 书城页面 ==================== -->
+        <div class="page" id="page-store">
+            <div class="page-header">
+                <h2 class="header-title">书城</h2>
+            </div>
+
+            <div class="search-bar" id="goSearch2">
+                <span class="search-icon">🔍</span>
+                <span class="search-placeholder">搜索书名或作者</span>
+            </div>
+
+            <!-- 轮播推荐 -->
+            <div class="banner-carousel" id="bannerCarousel">
+                <div class="banner-track" id="bannerTrack">
+                    <!-- 动态生成 -->
+                </div>
+                <div class="banner-dots" id="bannerDots"></div>
+            </div>
+
+            <!-- 分类标签 -->
+            <div class="category-tabs" id="categoryTabs">
+                <span class="cate-tab active" data-cate="all">全部</span>
+                <span class="cate-tab" data-cate="热门">热门</span>
+                <span class="cate-tab" data-cate="玄幻">玄幻</span>
+                <span class="cate-tab" data-cate="言情">言情</span>
+                <span class="cate-tab" data-cate="悬疑">悬疑</span>
+                <span class="cate-tab" data-cate="科幻">科幻</span>
+                <span class="cate-tab" data-cate="历史">历史</span>
+                <span class="cate-tab" data-cate="文学">文学</span>
+            </div>
+
+            <!-- 推荐列表 -->
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">精选推荐</h3>
+                    <span class="section-action">更多 ›</span>
+                </div>
+                <div class="book-list" id="storeList">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 分类页面 ==================== -->
+        <div class="page" id="page-category">
+            <div class="page-header">
+                <h2 class="header-title">分类</h2>
+            </div>
+
+            <div class="search-bar" id="goSearch3">
+                <span class="search-icon">🔍</span>
+                <span class="search-placeholder">搜索书名或作者</span>
+            </div>
+
+            <div class="category-grid" id="categoryGrid">
+                <!-- 动态生成 -->
+            </div>
+        </div>
+
+        <!-- ==================== 我的页面 ==================== -->
+        <div class="page" id="page-profile">
+            <div class="profile-header-section">
+                <div class="avatar-wrapper">
+                    <div class="avatar" id="avatar">😊</div>
+                </div>
+                <div class="profile-info">
+                    <h3 class="profile-name" id="profileName">爱读书的你</h3>
+                    <p class="profile-desc">读书破万卷，下笔如有神</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-num" id="statRead">0</span>
+                        <span class="stat-label">在读</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="statFinished">0</span>
+                        <span class="stat-label">读完</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num" id="statHours">0h</span>
+                        <span class="stat-label">阅读时长</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-item" id="menuReadingGoals">
+                    <span class="menu-icon">🎯</span>
+                    <span class="menu-text">阅读目标</span>
+                    <span class="menu-value" id="goalDisplay">每日30分钟</span>
+                    <span class="menu-arrow">›</span>
+                </div>
+                <div class="menu-item" id="menuNotes">
+                    <span class="menu-icon">📝</span>
+                    <span class="menu-text">我的笔记</span>
+                    <span class="menu-arrow">›</span>
+                </div>
+                <div class="menu-item" id="menuBookmarks">
+                    <span class="menu-icon">🔖</span>
+                    <span class="menu-text">书签管理</span>
+                    <span class="menu-arrow">›</span>
+                </div>
+                <div class="menu-item" id="menuNightMode">
+                    <span class="menu-icon">🌙</span>
+                    <span class="menu-text">夜间模式</span>
+                    <div class="switch-toggle" id="switchNightMode">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="menu-item" id="menuFontSize">
+                    <span class="menu-icon">🔤</span>
+                    <span class="menu-text">阅读字体</span>
+                    <span class="menu-value" id="fontSizeDisplay">默认</span>
+                    <span class="menu-arrow">›</span>
+                </div>
+                <div class="menu-item" id="menuClearCache">
+                    <span class="menu-icon">🗑️</span>
+                    <span class="menu-text">清除缓存</span>
+                    <span class="menu-value" id="cacheSizeDisplay">0KB</span>
+                    <span class="menu-arrow">›</span>
+                </div>
+                <div class="menu-item" id="menuAbout">
+                    <span class="menu-icon">ℹ️</span>
+                    <span class="menu-text">关于悦读</span>
+                    <span class="menu-arrow">›</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 搜索页面 ==================== -->
+        <div class="page page-overlay" id="page-search">
+            <div class="search-header">
+                <div class="search-input-wrapper">
+                    <span class="search-icon-inner">🔍</span>
+                    <input type="text" class="search-input" id="searchInput" placeholder="搜索书名、作者" autocomplete="off">
+                    <span class="search-clear" id="searchClear" style="display:none;">✕</span>
+                </div>
+                <span class="search-cancel" id="searchCancel">取消</span>
+            </div>
+            <!-- 搜索历史 -->
+            <div class="search-history" id="searchHistory">
+                <div class="history-header">
+                    <span>搜索历史</span>
+                    <span class="history-clear" id="clearHistory">清空</span>
+                </div>
+                <div class="history-tags" id="historyTags"></div>
+            </div>
+            <!-- 搜索结果 -->
+            <div class="search-results" id="searchResults" style="display:none;">
+                <div class="book-list" id="searchResultList"></div>
+                <div class="empty-state" id="searchEmpty" style="display:none;">
+                    <div class="empty-icon">🔍</div>
+                    <p class="empty-text">未找到相关书籍</p>
+                </div>
+            </div>
+            <!-- 热词推荐 -->
+            <div class="search-hot" id="searchHot">
+                <h4 class="hot-title">🔥 大家都在搜</h4>
+                <div class="hot-list" id="hotList"></div>
+            </div>
+        </div>
+
+        <!-- ==================== 书籍详情页 ==================== -->
+        <div class="page page-overlay" id="page-detail">
+            <div class="detail-header">
+                <span class="back-btn" id="detailBack">‹ 返回</span>
+                <span class="detail-share">分享</span>
+            </div>
+            <div class="detail-content" id="detailContent">
+                <!-- 动态生成 -->
+            </div>
+            <div class="detail-footer">
+                <button class="btn-add-shelf" id="btnAddShelf">加入书架</button>
+                <button class="btn-start-read" id="btnStartRead">开始阅读</button>
+            </div>
+        </div>
+
+        <!-- ==================== 阅读器页面 ==================== -->
+        <div class="page page-overlay" id="page-reader">
+            <div class="reader-header" id="readerHeader">
+                <span class="back-btn" id="readerBack">‹ 返回</span>
+                <span class="reader-title" id="readerTitle">章节标题</span>
+                <span class="reader-action" id="readerMenu">☰</span>
+            </div>
+            <div class="reader-content" id="readerContent">
+                <div class="reader-text" id="readerText">
+                    <!-- 动态生成 -->
+                </div>
+                <div class="reader-progress" id="readerProgress"></div>
+            </div>
+            <!-- 阅读器底部控制栏 -->
+            <div class="reader-footer" id="readerFooter">
+                <div class="reader-controls">
+                    <span class="ctrl-btn" id="btnPrevChapter">上一章</span>
+                    <span class="ctrl-btn" id="btnCatalog">目录</span>
+                    <span class="ctrl-btn" id="btnNightMode2">🌙</span>
+                    <span class="ctrl-btn" id="btnBookmark">🔖</span>
+                    <span class="ctrl-btn" id="btnNextChapter">下一章</span>
+                </div>
+                <div class="reader-slider-wrapper">
+                    <span class="font-label">A-</span>
+                    <input type="range" class="font-slider" id="fontSlider" min="14" max="28" value="18" step="1">
+                    <span class="font-label">A+</span>
+                </div>
+            </div>
+            <!-- 目录弹窗 -->
+            <div class="reader-modal" id="catalogModal" style="display:none;">
+                <div class="modal-overlay" id="catalogOverlay"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>目录</h3>
+                        <span class="modal-close" id="catalogClose">✕</span>
+                    </div>
+                    <div class="catalog-list" id="catalogList">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast 提示 -->
+        <div class="toast" id="toast" style="display:none;">
+            <span class="toast-text" id="toastText"></span>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <div class="tab-bar" id="tabBar">
+            <div class="tab-item active" data-page="bookshelf">
+                <span class="tab-icon">📖</span>
+                <span class="tab-label">书架</span>
+            </div>
+            <div class="tab-item" data-page="store">
+                <span class="tab-icon">🏪</span>
+                <span class="tab-label">书城</span>
+            </div>
+            <div class="tab-item" data-page="category">
+                <span class="tab-icon">📂</span>
+                <span class="tab-label">分类</span>
+            </div>
+            <div class="tab-item" data-page="profile">
+                <span class="tab-icon">👤</span>
+                <span class="tab-label">我的</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

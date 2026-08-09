@@ -1,0 +1,8 @@
+<template><div class="page-container"><el-card><template #header><div class="flex-between"><span class="page-title">优惠券管理</span><el-button type="primary" @click="handleAdd">创建优惠券</el-button></div></template><el-table :data="tableData" stripe><el-table-column prop="name" label="优惠券名称" /><el-table-column prop="type" label="类型" width="100" /><el-table-column label="面额" width="100"><template #default="{row}">¥{{row.value}}</template></el-table-column><el-table-column prop="received" label="已领/已用" width="120" /><el-table-column label="状态" width="100"><template #default="{row}"><el-tag :type="row.status===1?'success':'info'" size="small">{{row.status===1?'启用':'停用'}}</el-tag></template></el-table-column><el-table-column label="操作" width="180" align="center"><template #default="{row}"><el-button link type="primary" @click="handleEdit(row)">编辑</el-button><el-button link type="primary">发放</el-button><el-button link type="danger">删除</el-button></template></el-table-column></el-table></el-card></div></template>
+<script setup lang="ts">
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+const tableData = ref([{id:1,name:'618满减券',type:'满减',value:50,received:'890/520',status:1},{id:2,name:'新人专享券',type:'折扣',value:20,received:'1200/860',status:1},{id:3,name:'双11无门槛',type:'无门槛',value:10,received:'3200/2100',status:0}])
+function handleAdd():void { ElMessage.info('创建优惠券') }
+function handleEdit(row:{name:string}):void { ElMessage.info('编辑: '+row.name) }
+</script>

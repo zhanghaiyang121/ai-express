@@ -1,0 +1,21 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body { font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif; font-size: 14px; color: #303133; background-color: #F5F7FA; line-height: 1.5; min-height: 100vh; }
+a { text-decoration: none; color: #409EFF; }
+a:hover { color: #66b1ff; }
+ul, ol { list-style: none; }
+img { max-width: 100%; vertical-align: middle; }
+input, button, textarea, select { font-family: inherit; font-size: inherit; }
+.text-center { text-align: center; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-1 { flex: 1; }
+.w-full { width: 100%; }
+.cursor-pointer { cursor: pointer; }
+.text-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
