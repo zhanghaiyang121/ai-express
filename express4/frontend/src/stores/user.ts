@@ -26,7 +26,7 @@ export const useUserStore = defineStore('user', () => {
    */
   async function login(params: LoginParams) {
     const { data } = await userApi.login(params)
-    const { token: newToken, userInfo: info } = data.data
+    const { token: newToken, user: info } = data.data
 
     token.value = newToken
     userInfo.value = info

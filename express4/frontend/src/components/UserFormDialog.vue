@@ -217,7 +217,7 @@ function handleClose() {
           <select v-model="formData.role" class="form-input" :class="{ 'input-error': errors.role }">
             <option value="admin">管理员</option>
             <option value="editor">编辑者</option>
-            <option value="user">普通用户</option>
+            <option value="viewer">观察者</option>
           </select>
           <p v-if="errors.role" class="error-text">{{ errors.role }}</p>
         </div>

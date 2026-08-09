@@ -50,6 +50,7 @@ function roleClass(role: string): string {
   const map: Record<string, string> = {
     admin: 'role-admin',
     editor: 'role-editor',
+    viewer: 'role-user',
   }
   return map[role] || 'role-user'
 }
@@ -59,7 +60,7 @@ function roleLabel(role: string): string {
   const map: Record<string, string> = {
     admin: '管理员',
     editor: '编辑者',
-    user: '普通用户',
+    viewer: '观察者',
   }
   return map[role] || role
 }

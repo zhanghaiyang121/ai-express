@@ -5,8 +5,10 @@
  */
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,14 +17,28 @@ const PORT = process.env.PORT || 3000;
 
 // CORS 跨域配置
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:3002'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// 请求体解析
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// 请求体解析（Express 5 内置）
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ================ Swagger 在线文档 ================
+
+// const swaggerOptions = {
+//   customCss: '.swagger-ui .topbar { display: none }',
+//   customSiteTitle: '电商后台管理系统 - API 文档',
+//   customfavIcon: false,
+// };
+
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerOptions));
+// app.get('/api-docs.json', (req, res) => {
+//   res.setHeader('Content-Type', 'application/json');
+//   res.send(swaggerSpec);
+// });
 
 // ================ 路由注册 ================
 
@@ -33,6 +49,9 @@ app.get('/api/health', (req, res) => {
 
 // 认证模块路由 (M01)
 app.use('/api/v1/auth', authRoutes);
+
+// 用户管理模块路由 (M02)
+app.use('/api/v1/users', userRoutes);
 
 // ================ 404 处理 ================
 
@@ -61,6 +80,7 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`\n🚀 后端服务已启动: http://localhost:${PORT}`);
     console.log(`📋 健康检查: http://localhost:${PORT}/api/health`);
+    console.log(`📖 API 文档: http://localhost:${PORT}/api-docs`);
     console.log(`🔐 登录接口: POST http://localhost:${PORT}/api/v1/auth/login`);
     console.log(`👤 用户信息: GET  http://localhost:${PORT}/api/v1/auth/me\n`);
   });

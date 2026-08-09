@@ -38,5 +38,5 @@ export interface LoginParams {
 // ========== 登录响应 ==========
 export interface LoginResult {
   token: string
-  userInfo: UserInfo
+  user: UserInfo
 }

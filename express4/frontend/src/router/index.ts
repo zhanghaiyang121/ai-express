@@ -34,6 +34,12 @@ const routes: RouteRecordRaw[] = [
         name: 'UserManagement',
         component: () => import('@/views/UserManagement.vue'),
         meta: { title: '用户管理', icon: '👥' }
+      },
+      {
+        path: 'api-tester',
+        name: 'ApiTester',
+        component: () => import('@/views/ApiTester.vue'),
+        meta: { title: '接口调试', icon: '🔧' }
       }
     ]
   },

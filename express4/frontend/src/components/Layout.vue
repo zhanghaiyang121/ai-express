@@ -21,6 +21,7 @@ const currentTopMenu = computed(() => {
   if (path.startsWith('/dashboard')) return '/dashboard'
   if (path.startsWith('/about')) return '/about'
   if (path.startsWith('/users')) return '/users'
+  if (path.startsWith('/api-tester')) return '/api-tester'
   return ''
 })
 
@@ -28,6 +29,7 @@ const currentTopMenu = computed(() => {
 const topNavItems = [
   { path: '/dashboard', label: '仪表盘' },
   { path: '/users', label: '用户管理' },
+  { path: '/api-tester', label: '接口调试' },
   { path: '/about', label: '关于系统' },
 ]
 
