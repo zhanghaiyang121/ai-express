@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import type { UserInfo } from '@/types'
-import { useUserManagementStore } from '@/stores'
+import { ref, watch, computed } from 'vue';
+import type { UserInfo } from '@/types';
+import { useUserManagementStore } from '@/stores';
 
 // ========== Props ==========
 const props = withDefaults(
   defineProps<{
-    visible: boolean
-    user: UserInfo | null
+    visible: boolean;
+    user: UserInfo | null;
   }>(),
   {
     visible: false,
     user: null,
   },
-)
+);
 
 // ========== Emits ==========
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'submit-success'): void
-}>()
+  (e: 'close'): void;
+  (e: 'submit-success'): void;
+}>();
 
 // ========== Store ==========
-const store = useUserManagementStore()
+const store = useUserManagementStore();
 
 // ========== 计算属性 ==========
-const isEditMode = computed(() => props.user !== null)
-const dialogTitle = computed(() => (isEditMode.value ? '编辑用户' : '新建用户'))
+const isEditMode = computed(() => props.user !== null);
+const dialogTitle = computed(() => (isEditMode.value ? '编辑用户' : '新建用户'));
 
 // ========== 表单数据 ==========
 const formData = ref({
@@ -35,10 +35,10 @@ const formData = ref({
   email: '',
   role: 'user',
   password: '',
-})
+});
 
-const errors = ref<Record<string, string>>({})
-const submitting = ref(false)
+const errors = ref<Record<string, string>>({});
+const submitting = ref(false);
 
 // ========== 监听 visible 变化，初始化/重置表单 ==========
 watch(
@@ -46,105 +46,94 @@ watch(
   (newVal) => {
     if (newVal) {
       if (props.user) {
-        // 编辑模式：回显数据
         formData.value = {
           username: props.user.username,
           nickname: props.user.nickname,
           email: props.user.email,
           role: props.user.role,
           password: '',
-        }
+        };
       } else {
-        // 创建模式：重置
         formData.value = {
           username: '',
           nickname: '',
           email: '',
           role: 'user',
           password: '',
-        }
+        };
       }
-      errors.value = {}
+      errors.value = {};
     }
   },
   { immediate: true },
-)
+);
 
 // ========== 表单验证 ==========
 function validate(): boolean {
-  const errs: Record<string, string> = {}
+  const errs: Record<string, string> = {};
 
-  // 用户名验证
   if (!formData.value.username) {
-    errs.username = '用户名不能为空'
+    errs.username = '用户名不能为空';
   } else if (!/^[a-zA-Z0-9_]{3,20}$/.test(formData.value.username)) {
-    errs.username = '用户名需3-20位，仅限字母数字下划线'
+    errs.username = '用户名需3-20位，仅限字母数字下划线';
   }
 
-  // 昵称验证
   if (!formData.value.nickname) {
-    errs.nickname = '昵称不能为空'
+    errs.nickname = '昵称不能为空';
   } else if (formData.value.nickname.length > 20) {
-    errs.nickname = '昵称不超过20个字符'
+    errs.nickname = '昵称不超过20个字符';
   }
 
-  // 邮箱验证
   if (!formData.value.email) {
-    errs.email = '邮箱不能为空'
+    errs.email = '邮箱不能为空';
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email)) {
-    errs.email = '请输入有效的邮箱格式'
+    errs.email = '请输入有效的邮箱格式';
   }
 
-  // 密码验证（创建模式必填）
   if (!isEditMode.value) {
     if (!formData.value.password) {
-      errs.password = '密码不能为空'
+      errs.password = '密码不能为空';
     } else if (formData.value.password.length < 6 || formData.value.password.length > 20) {
-      errs.password = '密码需6-20位'
+      errs.password = '密码需6-20位';
     }
   }
 
-  // 角色验证
   if (!formData.value.role) {
-    errs.role = '请选择角色'
+    errs.role = '请选择角色';
   }
 
-  errors.value = errs
-  return Object.keys(errs).length === 0
+  errors.value = errs;
+  return Object.keys(errs).length === 0;
 }
 
 // ========== 提交表单 ==========
 async function handleSubmit() {
-  if (!validate()) return
+  if (!validate()) return;
 
-  submitting.value = true
+  submitting.value = true;
   try {
     if (isEditMode.value && props.user) {
-      // 编辑模式
       const success = await store.updateUser(props.user.id, {
         nickname: formData.value.nickname,
         email: formData.value.email,
         role: formData.value.role,
-      })
+      });
       if (success) {
-        emit('submit-success')
-        emit('close')
+        emit('submit-success');
+        emit('close');
       }
     } else {
-      // 创建模式：通过 store 调用 API
-      // 注意：userApi 当前只有 getUserList/updateUser/deleteUser，创建用户需要额外的 API
-      // 这里使用 Msg 提示需要后端支持创建 API
-      const { Msg } = await import('@/stores/message')
-      Msg.info('创建用户功能需要后端 API 支持')
+      const { Msg } = await import('@/stores/message');
+      Msg.info('创建用户功能需要后端 API 支持');
     }
   } finally {
-    submitting.value = false
+    submitting.value = false;
   }
 }
 
 // ========== 关闭弹窗 ==========
 function handleClose() {
-  emit('close')
+  emit('close');
 }
 </script>
 
@@ -251,10 +240,12 @@ function handleClose() {
 </template>
 
 <script lang="ts">
-export default { name: 'UserFormDialog' }
+export default { name: 'UserFormDialog' };
 </script>
 
 <style scoped lang="scss">
+@use '@/styles/variables.scss' as *;
+
 /* ========== 遮罩层 ========== */
 .dialog-overlay {
   position: fixed;
@@ -271,9 +262,9 @@ export default { name: 'UserFormDialog' }
   width: 460px;
   max-width: 90vw;
   max-height: 85vh;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -284,14 +275,14 @@ export default { name: 'UserFormDialog' }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid #f0f2f5;
+  padding: var(--gap-lg) var(--gap-lg) var(--gap-md);
+  border-bottom: 1px solid var(--border-color-light);
 }
 
 .dialog-title {
   font-size: 17px;
-  font-weight: 600;
-  color: #1a202c;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -302,19 +293,19 @@ export default { name: 'UserFormDialog' }
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  color: #8b95a5;
-  border-radius: 6px;
-  transition: background-color 0.2s, color 0.2s;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 
   &:hover {
     background-color: #f2f4f7;
-    color: #1a202c;
+    color: var(--text-primary);
   }
 }
 
 /* ========== 表单区域 ========== */
 .dialog-body {
-  padding: 20px 24px;
+  padding: var(--gap-lg) var(--gap-lg);
   overflow-y: auto;
   flex: 1;
 }
@@ -330,9 +321,9 @@ export default { name: 'UserFormDialog' }
 .form-label {
   display: block;
   margin-bottom: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 
   .required {
     color: $danger-color;
@@ -344,23 +335,23 @@ export default { name: 'UserFormDialog' }
   width: 100%;
   height: 40px;
   padding: 0 12px;
-  font-size: 14px;
-  color: #1a202c;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background-color: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   outline: none;
   box-sizing: border-box;
 
   &:focus {
     border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba(64, 158, 255, 0.15);
+    box-shadow: 0 0 0 2px var(--color-primary-bg);
   }
 
   &:disabled {
-    background-color: #f3f4f6;
-    color: #9ca3af;
+    background-color: $bg-color;
+    color: var(--text-secondary);
     cursor: not-allowed;
   }
 
@@ -368,7 +359,7 @@ export default { name: 'UserFormDialog' }
     border-color: $danger-color;
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.15);
+      box-shadow: 0 0 0 2px var(--color-danger-bg);
     }
   }
 }
@@ -378,7 +369,7 @@ select.form-input {
 }
 
 .error-text {
-  margin: 4px 0 0;
+  margin: var(--gap-xs) 0 0;
   font-size: 12px;
   color: $danger-color;
 }
@@ -387,27 +378,27 @@ select.form-input {
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  padding: 16px 24px 20px;
-  border-top: 1px solid #f0f2f5;
+  gap: var(--gap-sm);
+  padding: var(--gap-md) var(--gap-lg) var(--gap-lg);
+  border-top: 1px solid var(--border-color-light);
 }
 
 .btn-cancel,
 .btn-submit {
-  padding: 8px 20px;
-  font-size: 14px;
-  border-radius: 6px;
+  padding: var(--gap-sm) var(--gap-lg);
+  font-size: var(--font-size-body);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  transition: all var(--transition-fast);
 }
 
 .btn-cancel {
-  color: #4a5568;
-  background-color: #fff;
-  border: 1px solid #d1d5db;
+  color: var(--text-normal);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
 
   &:hover {
-    background-color: #f2f4f7;
+    background-color: $bg-color;
   }
 }
 
@@ -417,7 +408,7 @@ select.form-input {
   border: 1px solid $primary-color;
 
   &:hover:not(:disabled) {
-    background-color: color-mix(in srgb, $primary-color, #000 10%);
+    background-color: var(--color-primary-hover);
   }
 
   &:disabled {

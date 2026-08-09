@@ -1,28 +1,108 @@
-// ========== 主题颜色 ==========
-$primary-color: #409eff;
-$success-color: #67c23a;
-$warning-color: #e6a23c;
-$danger-color: #f56c6c;
-$info-color: #909399;
+// ========== CSS 自定义属性（设计令牌） ==========
+:root {
+  /* 主题色 */
+  --color-primary: #165DFF;
+  --color-primary-hover: #0e4fd9;
+  --color-primary-active: #0a3fb0;
+  --color-primary-bg: rgba(22, 93, 255, 0.1);
+
+  /* 功能色 */
+  --color-success: #36c777;
+  --color-success-bg: #eafaf1;
+  --color-warning: #ffaa33;
+  --color-warning-bg: #fff7eb;
+  --color-danger: #ed4b4b;
+  --color-danger-bg: #fef0f0;
+  --color-info: #4086f4;
+  --color-info-bg: #eaf1fd;
+
+  /* 中性色 */
+  --text-primary: #1d2129;
+  --text-normal: #4e5969;
+  --text-secondary: #86909c;
+  --text-placeholder: #c9cdd6;
+  --text-disabled: #c9cdd6;
+
+  /* 边框 */
+  --border-color: #e5e7eb;
+  --border-color-light: #f0f2f5;
+
+  /* 背景 */
+  --bg-color: #f5f7fc;
+  --bg-sidebar: #f5f7fc;
+  --bg-hover: #fafbff;
+  --bg-surface: #ffffff;
+
+  /* 圆角 */
+  --radius-sm: 6px;
+  --radius-md: 6px;
+  --radius-base: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* 间距（8px 网格） */
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 16px;
+  --gap-lg: 24px;
+  --gap-xl: 32px;
+  --gap-xxl: 48px;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.16);
+
+  /* 动效 */
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.25s ease-in-out;
+  --transition-slow: 0.35s ease-in-out;
+
+  /* 布局 */
+  --header-height: 60px;
+  --sidebar-width: 240px;
+  --content-padding: 24px;
+
+  /* 字体 */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Microsoft YaHei', sans-serif;
+  --font-size-h1: 24px;
+  --font-size-h2: 18px;
+  --font-size-h3: 16px;
+  --font-size-body: 14px;
+  --font-size-caption: 13px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+}
+
+// ========== SCSS 变量（向后兼容） ==========
+$primary-color: #165DFF;
+$success-color: #36c777;
+$warning-color: #ffaa33;
+$danger-color: #ed4b4b;
+$info-color: #4086f4;
 
 // ========== 中性色 ==========
-$text-primary: #303133;
-$text-regular: #606266;
-$text-secondary: #909399;
-$text-placeholder: #c0c4cc;
+$text-primary: #1d2129;
+$text-regular: #4e5969;
+$text-secondary: #86909c;
+$text-placeholder: #c9cdd6;
 
 // ========== 边框 ==========
-$border-color-base: #dcdfe6;
-$border-color-light: #e4e7ed;
+$border-color-base: #e5e7eb;
+$border-color-light: #f0f2f5;
 
 // ========== 背景 ==========
-$bg-color: #f5f7fa;
+$bg-color: #f5f7fc;
 $bg-color-white: #ffffff;
 
 // ========== 布局 ==========
 $header-height: 60px;
-$sidebar-width: 220px;
-$content-padding: 20px;
+$sidebar-width: 240px;
+$content-padding: 24px;
 
 // ========== 断点 ==========
 $screen-xs: 480px;

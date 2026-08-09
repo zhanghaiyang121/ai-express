@@ -1,38 +1,43 @@
 <script setup lang="ts">
-import { OrderStatusMap, OrderStatusColors, PayMethodMap } from '@/types/order'
-import type { Order, OrderStatus, PayMethod } from '@/types/order'
+import { OrderStatusMap, OrderStatusColors, PayMethodMap } from '@/types/order';
+import type { Order, OrderStatus, PayMethod } from '@/types/order';
 
 const props = withDefaults(defineProps<{
-  data: Order[]
-  loading: boolean
-  total: number
-  currentPage: number
-  pageSize: number
+  data: Order[];
+  loading: boolean;
+  total: number;
+  currentPage: number;
+  pageSize: number;
 }>(), {
   data: () => [],
   loading: false,
   total: 0,
   currentPage: 1,
   pageSize: 10,
-})
+});
 
 const emit = defineEmits<{
-  (e: 'page-change', page: number): void
-  (e: 'size-change', size: number): void
-  (e: 'view-detail', id: number): void
-  (e: 'ship', order: Order): void
-  (e: 'cancel', order: Order): void
-  (e: 'confirm', order: Order): void
-  (e: 'pay', order: Order): void
-}>()
+  (e: 'page-change', page: number): void;
+  (e: 'size-change', size: number): void;
+  (e: 'view-detail', id: number): void;
+  (e: 'ship', order: Order): void;
+  (e: 'cancel', order: Order): void;
+  (e: 'confirm', order: Order): void;
+  (e: 'pay', order: Order): void;
+}>();
 
 function formatTime(date: string) {
-  if (!date) return '-'
-  return new Date(date).toLocaleString('zh-CN')
+  if (!date) return '-';
+  return new Date(date).toLocaleString('zh-CN');
 }
 
 function formatMoney(val: number) {
-  return `¥${val.toFixed(2)}`
+  return `¥${val.toFixed(2)}`;
+}
+
+/** 表格行样式类名 */
+function tableRowClassName({ row }: { row: Order }): string {
+  return row.status === 'canceled' ? 'row-canceled' : '';
 }
 </script>
 
@@ -44,7 +49,7 @@ function formatMoney(val: number) {
       stripe
       border
       style="width: 100%"
-      :row-class-name="({ row }: { row: Order }) => row.status === 'canceled' ? 'row-canceled' : ''"
+      :row-class-name="tableRowClassName"
     >
       <el-table-column prop="orderNo" label="订单编号" width="180" align="center" />
       <el-table-column prop="userName" label="下单用户" width="100" align="center" />
@@ -114,30 +119,30 @@ function formatMoney(val: number) {
 
 <style scoped>
 .order-table-wrapper {
-  background: #fff;
-  border-radius: 8px;
-  padding: 16px;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-base);
+  padding: var(--gap-md);
 }
 
 .pagination-wrapper {
   display: flex;
   justify-content: flex-end;
-  margin-top: 16px;
+  margin-top: var(--gap-md);
 }
 
 .money {
-  font-weight: 600;
-  color: #e74c3c;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-danger);
 }
 
 .action-btns {
   display: flex;
-  gap: 4px;
+  gap: var(--gap-xs);
   justify-content: center;
 }
 
 :deep(.row-canceled) {
-  background-color: #f5f5f5;
-  color: #999;
+  background-color: var(--bg-color);
+  color: var(--text-secondary);
 }
 </style>

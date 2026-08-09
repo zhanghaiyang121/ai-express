@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { UserInfo } from '@/types'
+import { computed } from 'vue';
+import type { UserInfo } from '@/types';
 
 // ========== Props ==========
 const props = withDefaults(
   defineProps<{
-    users: UserInfo[]
-    loading: boolean
-    total: number
-    currentPage: number
-    pageSize: number
+    users: UserInfo[];
+    loading: boolean;
+    total: number;
+    currentPage: number;
+    pageSize: number;
   }>(),
   {
     users: () => [],
@@ -18,31 +18,31 @@ const props = withDefaults(
     currentPage: 1,
     pageSize: 10,
   },
-)
+);
 
 // ========== Emits ==========
 const emit = defineEmits<{
-  (e: 'page-change', page: number): void
-  (e: 'edit', user: UserInfo): void
-  (e: 'delete', user: UserInfo): void
-}>()
+  (e: 'page-change', page: number): void;
+  (e: 'edit', user: UserInfo): void;
+  (e: 'delete', user: UserInfo): void;
+}>();
 
 // ========== 计算属性 ==========
-const totalPages = computed(() => Math.max(1, Math.ceil(props.total / props.pageSize)))
+const totalPages = computed(() => Math.max(1, Math.ceil(props.total / props.pageSize)));
 
 // ========== 方法 ==========
 function goToPage(page: number) {
   if (page >= 1 && page <= totalPages.value && page !== props.currentPage) {
-    emit('page-change', page)
+    emit('page-change', page);
   }
 }
 
 function handleEdit(user: UserInfo) {
-  emit('edit', user)
+  emit('edit', user);
 }
 
 function handleDelete(user: UserInfo) {
-  emit('delete', user)
+  emit('delete', user);
 }
 
 /** 根据角色返回标签样式类名 */
@@ -51,8 +51,8 @@ function roleClass(role: string): string {
     admin: 'role-admin',
     editor: 'role-editor',
     viewer: 'role-user',
-  }
-  return map[role] || 'role-user'
+  };
+  return map[role] || 'role-user';
 }
 
 /** 角色中文映射 */
@@ -61,8 +61,8 @@ function roleLabel(role: string): string {
     admin: '管理员',
     editor: '编辑者',
     viewer: '观察者',
-  }
-  return map[role] || role
+  };
+  return map[role] || role;
 }
 </script>
 
@@ -127,22 +127,24 @@ function roleLabel(role: string): string {
 </template>
 
 <script lang="ts">
-export default { name: 'UserTable' }
+export default { name: 'UserTable' };
 </script>
 
 <style scoped lang="scss">
+@use '@/styles/variables.scss' as *;
+
 .user-table-wrapper {
-  background-color: #fff;
-  border-radius: 8px;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-base);
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
 }
 
 .table-loading,
 .table-empty {
   padding: 60px 0;
   text-align: center;
-  color: #8b95a5;
+  color: var(--text-secondary);
   font-size: 15px;
 }
 
@@ -152,28 +154,29 @@ export default { name: 'UserTable' }
   border-collapse: collapse;
 
   thead {
-    background-color: #f7f8fa;
+    background-color: $bg-color;
 
     th {
-      padding: 14px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #4a5568;
+      padding: 12px var(--gap-md);
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
       text-align: left;
-      border-bottom: 1px solid #e8ecf1;
+      border-bottom: 1px solid var(--border-color);
       white-space: nowrap;
     }
   }
 
   tbody td {
-    padding: 14px 16px;
-    font-size: 14px;
-    color: #2d3748;
-    border-bottom: 1px solid #f0f2f5;
+    padding: 12px var(--gap-md);
+    font-size: var(--font-size-body);
+    color: var(--text-normal);
+    border-bottom: 1px solid var(--border-color-light);
+    height: 48px;
   }
 
   tbody tr:hover {
-    background-color: #f7f9fc;
+    background-color: var(--bg-hover);
   }
 }
 
@@ -194,34 +197,34 @@ export default { name: 'UserTable' }
   display: inline-block;
   padding: 2px 10px;
   font-size: 12px;
-  border-radius: 10px;
-  font-weight: 500;
+  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-medium);
 
   &.role-admin {
-    background-color: #ebf5ff;
-    color: #3182ce;
+    background-color: var(--color-info-bg);
+    color: var(--color-info);
   }
 
   &.role-editor {
-    background-color: #fef3e2;
-    color: #dd6b20;
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
   }
 
   &.role-user {
-    background-color: #e8f5e9;
-    color: #388e3c;
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
   }
 }
 
 /* ========== 操作按钮 ========== */
 .btn-edit,
 .btn-delete {
-  padding: 4px 12px;
-  font-size: 13px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+  padding: var(--gap-xs) var(--gap-sm);
+  font-size: var(--font-size-caption);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  transition: all var(--transition-fast);
 
   &:hover {
     opacity: 0.85;
@@ -232,7 +235,7 @@ export default { name: 'UserTable' }
   color: $primary-color;
   border-color: $primary-color;
   background-color: transparent;
-  margin-right: 8px;
+  margin-right: var(--gap-sm);
 
   &:hover {
     background-color: $primary-color;
@@ -256,33 +259,33 @@ export default { name: 'UserTable' }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  border-top: 1px solid #f0f2f5;
+  padding: var(--gap-md);
+  border-top: 1px solid var(--border-color-light);
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--gap-sm);
 }
 
 .pagination-info {
-  font-size: 13px;
-  color: #8b95a5;
+  font-size: var(--font-size-caption);
+  color: var(--text-secondary);
 }
 
 .pagination-btns {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--gap-xs);
 
   button {
     min-width: 36px;
     height: 36px;
     padding: 0 10px;
-    font-size: 13px;
-    color: #4a5568;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
+    font-size: var(--font-size-caption);
+    color: var(--text-normal);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-surface);
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    transition: all var(--transition-fast);
 
     &:hover:not(:disabled) {
       border-color: $primary-color;
@@ -290,8 +293,9 @@ export default { name: 'UserTable' }
     }
 
     &:disabled {
-      color: #ccc;
+      color: var(--color-success);
       cursor: not-allowed;
+      opacity: 0.5;
     }
 
     &.active {

@@ -1,120 +1,119 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from 'vue'
-import { useOrderManagementStore } from '@/stores/orderManagement'
-import { OrderStatusMap } from '@/types/order'
-import type { OrderStatus, Order, AfterSale, CreateOrderParams, ShipOrderParams } from '@/types/order'
-import OrderTable from '@/components/OrderTable.vue'
-import OrderDetail from '@/components/OrderDetail.vue'
-import OrderFormDialog from '@/components/OrderFormDialog.vue'
-import AfterSaleDialog from '@/components/AfterSaleDialog.vue'
-import { Msg } from '@/stores/message'
+import { onMounted, ref, reactive } from 'vue';
+import { useOrderManagementStore } from '@/stores/orderManagement';
+import { OrderStatusMap } from '@/types/order';
+import type { OrderStatus, Order, AfterSale, CreateOrderParams, ShipOrderParams } from '@/types/order';
+import OrderTable from '@/components/OrderTable.vue';
+import OrderDetail from '@/components/OrderDetail.vue';
+import OrderFormDialog from '@/components/OrderFormDialog.vue';
+import AfterSaleDialog from '@/components/AfterSaleDialog.vue';
+import { Msg } from '@/stores/message';
 
-const store = useOrderManagementStore()
+const store = useOrderManagementStore();
 
 const statusOptions: Array<{ label: string; value: OrderStatus | '' }> = [
   { label: '全部', value: '' },
   ...Object.entries(OrderStatusMap).map(([value, label]) => ({ label, value: value as OrderStatus })),
-]
+];
 
 // 选中待操作的订单
-const selectedOrder = ref<Order | null>(null)
-const cancelReason = ref('')
-const shipForm = reactive<ShipOrderParams>({ company: '顺丰', trackingNo: '' })
+const selectedOrder = ref<Order | null>(null);
+const cancelReason = ref('');
+const shipForm = reactive<ShipOrderParams>({ company: '顺丰', trackingNo: '' });
 
 // 当前激活的 tab
-const activeTab = ref<'orders' | 'afterSales'>('orders')
+const activeTab = ref<'orders' | 'afterSales'>('orders');
 
 onMounted(() => {
-  store.fetchOrderList()
-})
+  store.fetchOrderList();
+});
 
 function handleSearch() {
-  store.fetchOrderList({ page: 1 })
+  store.fetchOrderList({ page: 1 });
 }
 
 function handleReset() {
-  store.query.orderNo = undefined
-  store.query.status = undefined
-  store.query.keyword = undefined
-  store.query.startDate = undefined
-  store.query.endDate = undefined
-  store.fetchOrderList({ page: 1 })
+  store.query.orderNo = undefined;
+  store.query.status = undefined;
+  store.query.keyword = undefined;
+  store.query.startDate = undefined;
+  store.query.endDate = undefined;
+  store.fetchOrderList({ page: 1 });
 }
 
 function handlePageChange(page: number) {
-  store.fetchOrderList({ page })
+  store.fetchOrderList({ page });
 }
 
 function handleSizeChange(size: number) {
-  store.fetchOrderList({ pageSize: size, page: 1 })
+  store.fetchOrderList({ pageSize: size, page: 1 });
 }
 
 // 详情
 function handleViewDetail(id: number) {
-  store.fetchOrderDetail(id)
-  store.showDetailDrawer = true
+  store.fetchOrderDetail(id);
+  store.showDetailDrawer = true;
 }
 
 // 支付
 async function handlePay(_order: Order) {
-  Msg.success('模拟支付成功')
-  // Mock 支付：实际项目中应调用支付 API
-  store.fetchOrderList()
+  Msg.success('模拟支付成功');
+  store.fetchOrderList();
 }
 
 // 取消
 function handleCancel(order: Order) {
-  selectedOrder.value = order
-  cancelReason.value = ''
-  store.showCancelDialog = true
+  selectedOrder.value = order;
+  cancelReason.value = '';
+  store.showCancelDialog = true;
 }
 
 async function doCancel() {
-  if (!cancelReason.value.trim() || !selectedOrder.value) return
-  await store.cancelOrder(selectedOrder.value.id, cancelReason.value)
-  selectedOrder.value = null
+  if (!cancelReason.value.trim() || !selectedOrder.value) return;
+  await store.cancelOrder(selectedOrder.value.id, cancelReason.value);
+  selectedOrder.value = null;
 }
 
 // 发货
 function handleShip(order: Order) {
-  selectedOrder.value = order
-  shipForm.company = '顺丰'
-  shipForm.trackingNo = ''
-  store.showShipDialog = true
+  selectedOrder.value = order;
+  shipForm.company = '顺丰';
+  shipForm.trackingNo = '';
+  store.showShipDialog = true;
 }
 
 async function doShip() {
-  if (!selectedOrder.value || !shipForm.company || !shipForm.trackingNo) return
-  await store.shipOrder(selectedOrder.value.id, { ...shipForm })
-  selectedOrder.value = null
+  if (!selectedOrder.value || !shipForm.company || !shipForm.trackingNo) return;
+  await store.shipOrder(selectedOrder.value.id, { ...shipForm });
+  selectedOrder.value = null;
 }
 
 // 确认收货
 async function handleConfirm(order: Order) {
-  await store.confirmOrder(order.id)
+  await store.confirmOrder(order.id);
 }
 
 // 创建订单
 function handleCreateSubmit(data: CreateOrderParams) {
-  store.createOrder(data)
+  store.createOrder(data);
 }
 
 // 售后标签切换
 function handleTabChange(tab: 'orders' | 'afterSales') {
-  activeTab.value = tab
+  activeTab.value = tab;
   if (tab === 'afterSales') {
-    store.fetchAfterSaleList()
+    store.fetchAfterSaleList();
   }
 }
 
 // 售后审核
 function handleAfterSaleAudit(afterSale: AfterSale) {
-  store.currentAfterSale = afterSale
-  store.showAfterSaleAuditDialog = true
+  store.currentAfterSale = afterSale;
+  store.showAfterSaleAuditDialog = true;
 }
 
 async function doAudit(id: number, action: 'approved' | 'rejected', result: string) {
-  await store.auditAfterSale(id, { action, result })
+  await store.auditAfterSale(id, { action, result });
 }
 </script>
 
@@ -240,8 +239,33 @@ async function doAudit(id: number, action: 'approved' | 'rejected', result: stri
 </template>
 
 <style scoped>
-.order-management { padding: 20px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.page-header h2 { margin: 0; font-size: 20px; }
-.filter-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; padding: 12px; background: #fff; border-radius: 8px; }
+.order-management {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--gap-md);
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.filter-bar {
+  display: flex;
+  gap: var(--gap-sm);
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: var(--gap-md);
+  padding: var(--gap-sm);
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-base);
+}
 </style>

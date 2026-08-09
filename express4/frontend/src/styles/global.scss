@@ -12,11 +12,10 @@ html,
 body {
   width: 100%;
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Microsoft YaHei', sans-serif;
-  font-size: 14px;
-  color: $text-primary;
-  background-color: $bg-color;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  background-color: var(--bg-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -45,7 +44,24 @@ button {
 }
 
 input,
-textarea {
+textarea,
+select {
   font-family: inherit;
   outline: none;
+}
+
+/* 焦点可见样式（无障碍） */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 尊重用户动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

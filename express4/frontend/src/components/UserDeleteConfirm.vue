@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import type { UserInfo } from '@/types'
+import type { UserInfo } from '@/types';
 
 // ========== Props ==========
 const props = withDefaults(
   defineProps<{
-    visible: boolean
-    user: UserInfo | null
+    visible: boolean;
+    user: UserInfo | null;
   }>(),
   {
     visible: false,
     user: null,
   },
-)
+);
 
 // ========== Emits ==========
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'confirm', user: UserInfo): void
-}>()
+  (e: 'close'): void;
+  (e: 'confirm', user: UserInfo): void;
+}>();
 
 // ========== 方法 ==========
 function handleClose() {
-  emit('close')
+  emit('close');
 }
 
 function handleConfirm() {
   if (props.user) {
-    emit('confirm', props.user)
+    emit('confirm', props.user);
   }
 }
 </script>
@@ -55,10 +55,12 @@ function handleConfirm() {
 </template>
 
 <script lang="ts">
-export default { name: 'UserDeleteConfirm' }
+export default { name: 'UserDeleteConfirm' };
 </script>
 
 <style scoped lang="scss">
+@use '@/styles/variables.scss' as *;
+
 /* ========== 遮罩层 ========== */
 .dialog-overlay {
   position: fixed;
@@ -74,36 +76,36 @@ export default { name: 'UserDeleteConfirm' }
 .confirm-dialog {
   width: 400px;
   max-width: 90vw;
-  padding: 32px 28px 24px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  padding: var(--gap-xl) 28px var(--gap-lg);
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
   text-align: center;
 }
 
 /* ========== 图标 ========== */
 .confirm-icon {
   font-size: 44px;
-  margin-bottom: 16px;
+  margin-bottom: var(--gap-md);
 }
 
 /* ========== 标题 ========== */
 .confirm-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: #1a202c;
-  margin: 0 0 12px;
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--gap-sm);
 }
 
 /* ========== 内容 ========== */
 .confirm-content {
-  font-size: 14px;
-  color: #6b7280;
+  font-size: var(--font-size-body);
+  color: var(--text-normal);
   line-height: 1.6;
-  margin: 0 0 24px;
+  margin: 0 0 var(--gap-lg);
 
   strong {
-    color: #1a202c;
+    color: var(--text-primary);
   }
 }
 
@@ -111,25 +113,25 @@ export default { name: 'UserDeleteConfirm' }
 .confirm-actions {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: var(--gap-sm);
 }
 
 .btn-cancel,
 .btn-confirm {
-  padding: 8px 24px;
-  font-size: 14px;
-  border-radius: 6px;
+  padding: var(--gap-sm) var(--gap-lg);
+  font-size: var(--font-size-body);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  transition: all var(--transition-fast);
 }
 
 .btn-cancel {
-  color: #4a5568;
-  background-color: #fff;
-  border: 1px solid #d1d5db;
+  color: var(--text-normal);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
 
   &:hover {
-    background-color: #f2f4f7;
+    background-color: $bg-color;
   }
 }
 
@@ -139,7 +141,7 @@ export default { name: 'UserDeleteConfirm' }
   border: 1px solid $danger-color;
 
   &:hover {
-    background-color: color-mix(in srgb, $danger-color, #000 12%);
+    background-color: #d43a3a;
   }
 }
 </style>
