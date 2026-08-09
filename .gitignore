@@ -25,5 +25,8 @@ npm-debug.log*
 # Lock files (keep for reproducibility, uncomment if needed)
 # package-lock.json
 
+# Test coverage
+coverage/
+
 # Temp scripts
 create_repo.ps1
