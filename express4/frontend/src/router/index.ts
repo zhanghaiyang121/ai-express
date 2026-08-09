@@ -40,6 +40,12 @@ const routes: RouteRecordRaw[] = [
         name: 'ApiTester',
         component: () => import('@/views/ApiTester.vue'),
         meta: { title: '接口调试', icon: '🔧' }
+      },
+      {
+        path: 'orders',
+        name: 'OrderManagement',
+        component: () => import('@/views/OrderManagement.vue'),
+        meta: { title: '订单管理', icon: '📦' }
       }
     ]
   },

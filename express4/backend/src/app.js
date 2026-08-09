@@ -9,6 +9,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const afterSaleRoutes = require('./routes/afterSaleRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -52,6 +54,10 @@ app.use('/api/v1/auth', authRoutes);
 
 // 用户管理模块路由 (M02)
 app.use('/api/v1/users', userRoutes);
+
+// 订单管理模块路由 (M04)
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/after-sales', afterSaleRoutes);
 
 // ================ 404 处理 ================
 
