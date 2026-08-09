@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import FloatMessage from '@/components/FloatMessage.vue'
 
 const router = useRouter()
 
@@ -22,6 +23,7 @@ const currentRoute = router.currentRoute
     <main class="app-main">
       <router-view />
     </main>
+    <FloatMessage />
     <footer class="app-footer">
       <p>Express4 - Vite + Vue3 + TypeScript 前端架构</p>
     </footer>
