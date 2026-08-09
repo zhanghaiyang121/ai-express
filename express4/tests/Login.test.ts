@@ -103,16 +103,14 @@ describe('Login 页面', () => {
   describe('表单验证', () => {
     it('用户名为空时提交显示错误', async () => {
       const wrapper = mountLogin()
-      await wrapper.find('.btn-submit').trigger('click')
-
+      await wrapper.find('form').trigger('submit.prevent')
       expect(wrapper.find('.error-msg').text()).toBe('请输入用户名和密码')
     })
 
     it('密码为空时提交显示错误', async () => {
       const wrapper = mountLogin()
       await wrapper.find('#username').setValue('admin')
-      await wrapper.find('.btn-submit').trigger('click')
-
+      await wrapper.find('form').trigger('submit.prevent')
       expect(wrapper.find('.error-msg').text()).toBe('请输入用户名和密码')
     })
 
@@ -126,20 +124,17 @@ describe('Login 页面', () => {
       const wrapper = mountLogin()
       await wrapper.find('#username').setValue('admin')
       await wrapper.find('#password').setValue('pass')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
       await flushPromises()
 
-      // 验证错误信息被清空（因为成功进入了 login 流程）
       expect(wrapper.find('.error-msg').exists()).toBe(false)
     })
 
-    it('用户名有空格时算作空', async () => {
+    it('用户名只有空格时算作空', async () => {
       const wrapper = mountLogin()
-      // 只有空格
       await wrapper.find('#username').setValue('   ')
       await wrapper.find('#password').setValue('pass')
-      await wrapper.find('.btn-submit').trigger('click')
-
+      await wrapper.find('form').trigger('submit.prevent')
       expect(wrapper.find('.error-msg').text()).toBe('请输入用户名和密码')
     })
   })
@@ -158,14 +153,13 @@ describe('Login 页面', () => {
       const wrapper = mountLogin()
       await wrapper.find('#username').setValue('admin')
       await wrapper.find('#password').setValue('correct')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
       await flushPromises()
 
       expect(mockPush).toHaveBeenCalledWith('/')
     })
 
     it('登录过程中按钮显示"登录中..."且禁用', async () => {
-      // 延迟 resolve 以便检查 loading 状态
       let resolvePromise: (value: unknown) => void = () => {}
       vi.mocked(userApi.login).mockReturnValue(new Promise((resolve) => {
         resolvePromise = resolve
@@ -174,7 +168,7 @@ describe('Login 页面', () => {
       const wrapper = mountLogin()
       await wrapper.find('#username').setValue('admin')
       await wrapper.find('#password').setValue('pass')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
 
       await wrapper.vm.$nextTick()
 
@@ -182,7 +176,6 @@ describe('Login 页面', () => {
       expect(btn.text()).toBe('登录中...')
       expect(btn.attributes('disabled')).toBeDefined()
 
-      // 完成请求
       resolvePromise({ data: { data: { token: 't', userInfo: { id: 1, username: 'a', nickname: 'n', avatar: '', email: '', role: 'user' } } } })
       await flushPromises()
     })
@@ -193,7 +186,7 @@ describe('Login 页面', () => {
       const wrapper = mountLogin()
       await wrapper.find('#username').setValue('admin')
       await wrapper.find('#password').setValue('wrong')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
       await flushPromises()
 
       expect(wrapper.find('.error-msg').text()).toBe('用户名或密码错误')
@@ -205,7 +198,7 @@ describe('Login 页面', () => {
       const wrapper = mountLogin()
       await wrapper.find('#username').setValue('admin')
       await wrapper.find('#password').setValue('wrong')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
       await flushPromises()
 
       const btn = wrapper.find('.btn-submit')
@@ -219,7 +212,7 @@ describe('Login 页面', () => {
       const wrapper = mountLogin()
       await wrapper.find('#username').setValue('admin')
       await wrapper.find('#password').setValue('pass')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
       await flushPromises()
 
       expect(wrapper.find('.error-msg').text()).toBe('登录失败')
@@ -245,24 +238,22 @@ describe('Login 页面', () => {
   })
 
   describe('错误状态管理', () => {
-    it('提交验证通过后清除先前的错误信息', async () => {
+    it('提交后清除先前的错误信息', async () => {
       vi.mocked(userApi.login).mockRejectedValue(new Error('第一次失败'))
 
       const wrapper = mountLogin()
-      // 第一次提交失败
       await wrapper.find('#username').setValue('admin')
       await wrapper.find('#password').setValue('wrong')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
       await flushPromises()
       expect(wrapper.find('.error-msg').text()).toBe('第一次失败')
 
-      // 第二次提交（用户修改密码后）
+      // 第二次提交
       vi.mocked(userApi.login).mockRejectedValue(new Error('第二次失败'))
       await wrapper.find('#password').setValue('another')
-      await wrapper.find('.btn-submit').trigger('click')
+      await wrapper.find('form').trigger('submit.prevent')
       await flushPromises()
 
-      // 错误信息被更新
       expect(wrapper.find('.error-msg').text()).toBe('第二次失败')
     })
   })
