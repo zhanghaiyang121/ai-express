@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import { useAppStore, useUserStore } from '@/stores'
+import { useAppStore, useUserStore, useMessageStore } from '@/stores'
 import HelloWorld from '@/components/HelloWorld.vue'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
+const messageStore = useMessageStore()
 
 // 设置页面标题
 appStore.setPageTitle('首页')
+
+/** 点击按钮弹出消息 */
+function showMessage() {
+  messageStore.success('你好！这是一条来自首页的消息弹窗 🎉')
+}
 </script>
 
 <template>
   <div class="home-page">
     <HelloWorld msg="Vite + Vue3 + TypeScript" />
+
+    <div class="demo-action">
+      <button class="btn-message" @click="showMessage">点击弹出消息</button>
+    </div>
 
     <div class="tech-stack">
       <h2>技术栈</h2>
@@ -44,6 +54,32 @@ appStore.setPageTitle('首页')
 .home-page {
   padding: $content-padding;
   text-align: center;
+
+  .demo-action {
+    margin-top: 20px;
+
+    .btn-message {
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.55);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
 
   .tech-stack {
     margin-top: 30px;
