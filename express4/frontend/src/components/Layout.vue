@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import FloatMessage from '@/components/FloatMessage.vue'
+import UserAvatar from '@/components/UserAvatar.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -101,6 +102,7 @@ function handleLogout() {
         >
           退出
         </button>
+        <UserAvatar v-if="isLoggedIn" />
         <router-link v-else to="/login" class="btn-login">登录</router-link>
       </div>
     </header>

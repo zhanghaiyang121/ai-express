@@ -1,0 +1,60 @@
+﻿
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90mE:/person-proj/ai-express/express4[39m
+
+ [32m鉁?[39m tests/appStore.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m鉁?[39m tests/storage.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+node.exe : Not implemented: Window's scrollTo() method
+所在位置 行:1 字符: 1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ..
+.
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Not implemented...rollTo() m 
+   ethod:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Not implemented: Window's scrollTo() method
+Not implemented: Window's scrollTo() method
+Not implemented: Window's scrollTo() method
+Not implemented: Window's scrollTo() method
+ [32m鉁?[39m tests/userManagement.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m鉁?[39m tests/router.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [32m鉁?[39m tests/message.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+[90mstderr[2m | tests/userStore.test.ts[2m > [22m[2muser store[2m > 
+[22m[2mfetchUserInfo[2m > [22m[2m鑾峰彇鐢ㄦ埛淇℃伅澶辫触鎶涘嚭閿欒
+[22m[39m[UserStore] Failed to fetch user info: Error: 缃戠粶閿欒
+    at E:/person-proj/ai-express/express4/tests/userStore.test.ts:165:56
+    at [90mfile:///E:/person-proj/ai-express/express4/[39mnode_modules/
+[4m@vitest[24m/runner/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/person-proj/ai-express/express4/[39mnode_modules/
+[4m@vitest[24m/runner/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/person-proj/ai-express/express4/[39mnode_modules/
+[4m@vitest[24m/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/person-proj/ai-express/express4/[39
+mnode_modules/[4m@vitest[24m/runner/dist/chunk-artifact.js:2323:10[90m)
+[39m
+    at [90mfile:///E:/person-proj/ai-express/express4/[39mnode_modules/
+[4m@vitest[24m/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/person-proj/ai-express/express4/[3
+9mnode_modules/[4m@vitest[24m/runner/dist/chunk-artifact.js:2272:10[90m
+)[39m
+    at [90mfile:///E:/person-proj/ai-express/express4/[39mnode_modules/
+[4m@vitest[24m/runner/dist/chunk-artifact.js:2955:64
+
+ [32m鉁?[39m tests/userStore.test.ts [2m([22m[2m29 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m鉁?[39m tests/HelloWorld.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 88[2mms[22m[39m
+ [32m鉁?[39m tests/UserDeleteConfirm.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 88[2mms[22m[39m
+ [32m鉁?[39m tests/FloatMessage.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+ [32m鉁?[39m tests/UserManagementView.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 136[2mms[22m[39m
+ [32m鉁?[39m tests/UserTable.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 170[2mms[22m[39m
+ [32m鉁?[39m tests/UserFormDialog.test.ts [2m([22m[2m38 tests[22m[2m)[22m[32m 271[2mms[22m[39m
+ [32m鉁?[39m tests/Login.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 153[2mms[22m[39m
+ [32m鉁?[39m tests/views.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 110[2mms[22m[39m
+ [32m鉁?[39m tests/Layout.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 149[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m15 passed[39m[22m[90m (15)[39m
+[2m      Tests [22m [1m[32m279 passed[39m[22m[90m (279)[39m
+[2m   Start at [22m 13:46:29
+[2m   Duration [22m 3.68s[2m (transform 6.84s, setup 0ms, import 12.92s, tests 1.50s, environment 30.23s)[22m
+
