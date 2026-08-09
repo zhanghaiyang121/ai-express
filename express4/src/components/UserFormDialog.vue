@@ -67,6 +67,7 @@ watch(
       errors.value = {}
     }
   },
+  { immediate: true },
 )
 
 // ========== 表单验证 ==========
